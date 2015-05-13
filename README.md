@@ -25,21 +25,61 @@ Start the app:
 grunt run
 ```
 
-The app will then be accessible at \*:3000
+The app will then be accessible at `*:3000`.
 
 Backend
 -------
 
-I chose Node for the app's backend.
+I chose Node for the app's backend. Node provided a couple of advantages over
+a Python/gevent backend which would have been my second choice. First, Node
+provided more natural support for Socket.IO. Second, using Node simplified
+the application setup, preventing the need for separate sets of dependencies
+for the frontend and backend. This enables you to get the app up and running
+with a simple `npm install`, `grunt run` combo.
+
+All of the business logic executes on the backend. When the user interacts
+with the app, the backend receives messages and processes them to update the
+game state. Any modified game elements are then sent back to the frontend for
+rendering.
 
 Frontend
 --------
 
-Bootstrap provides some basic structure to the UI.
+The frontend utilizes Backbone views and events to provide some basic
+structure. The frontend is pretty simple, having only two basic
+responsibilities: handling user interaction and rendering the game's state.
+All of the tic-tac-toe business logic happens on the backend. On user action,
+the frontend sends a message to the backend. On receiving a message from the
+backend, the frontend renders the updated component of the game.
 
-jQuery is used because since it's required by jQuery, Underscore, and Backbone.
+I used Bootstrap to get some basic UI such as decent typography and the column
+layout. I also wrote a small amount of custom CSS to get the look that I
+wanted.
 
-Backbone is used for the front-end.
+Communication Protocol
+----------------------
+
+The backend and frontend communicate over Socket.IO. The backend keeps track
+of most of the game state, and updates the frontend when necessary so that
+things can be rendered. The frontend handles user interactions and notifies
+the backend regarding actions that the user has taken. The frontend sends
+these messages to the backend:
+
+* *login* - sent when the user submits the login form
+* *take cell* - sent when the user clicks on a cell
+* *chat* - sent when the user submits a chat
+
+The backend processes these messages, modifies the game state as appropriate,
+and then updates the frontend with whatever state has changed. Every entity
+in the game's UI has a corresponding message used to update that entity. Here
+are the messages the backend sends to the frontend.
+
+* *login successful* - sent when the user successfully logs in
+* *update player* - update the player's information
+* *update opponent* - update the opponent's information
+* *show message* - set the message displayed below the board
+* *add chat* - append a chat message to the chat window
+* *update board* - update the board
 
 Testing
 -------
@@ -50,6 +90,10 @@ simply run:
 ```bash
 grunt test
 ```
+
+Normally for a project like this I would want some end-to-end tests. However,
+for the sake of time and simplicity of setup I omitted them. For a real
+project I would create a slightly more comprehensive test suite.
 
 Dependencies
 ------------

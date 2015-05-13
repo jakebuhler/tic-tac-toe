@@ -1,3 +1,8 @@
+/* MessageView
+ *
+ * Display game status messages.
+ */
+
 var MessageView = Backbone.View.extend({
 
     tagName: "p",

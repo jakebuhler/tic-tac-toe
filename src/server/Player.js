@@ -1,3 +1,8 @@
+/* Player
+ *
+ * Represent a player connected to the game over Socket.IO
+ */
+
 var Player = function (socket, name) {
     this.socket = socket;
     this.opponent = null;

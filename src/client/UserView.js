@@ -1,3 +1,8 @@
+/* UserView
+ *
+ * Render the user's name and win-loss record.
+ */
+
 var UserView = Backbone.View.extend({
 
     tagName: "div",

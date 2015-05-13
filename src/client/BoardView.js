@@ -1,3 +1,8 @@
+/* BoardView
+ *
+ * Render the tic-tac-toe board.
+ */
+
 var BoardView = Backbone.View.extend({
 
     tagName: "table",

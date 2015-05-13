@@ -1,3 +1,9 @@
+/* ChatView
+ *
+ * Render a box showing all of the chats and a text input
+ * for submitting chats.
+ */
+
 var ChatView = Backbone.View.extend({
 
     tagName: "div",

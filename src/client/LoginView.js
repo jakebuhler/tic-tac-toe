@@ -1,6 +1,6 @@
 /* LoginView
  *
- * View for the user login form shown when the app is first launched.
+ * Render the user login form shown when the app is first launched.
  */
 
 var LoginView = Backbone.View.extend({

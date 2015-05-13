@@ -1,3 +1,8 @@
+/* Board
+ *
+ * Track the state of the tic-tac-toe board.
+ */
+
 var Board = function () {
     this.board = null;
     this.turn = null;

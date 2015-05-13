@@ -1,3 +1,8 @@
+/* TicTacToe
+ *
+ * Represent a game of tic-tac-toe.
+ */
+
 var TicTacToe = function (board) {
     // Don't use a playerID -> player hash here because that would
     // make it difficult to determine a player's opponent given the
