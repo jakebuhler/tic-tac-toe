@@ -14,29 +14,29 @@ var TicTacToe = function (board) {
 };
 
 TicTacToe.prototype.addPlayer = function (player) {
-    if (this.isFull()) {
+    if (this._isFull()) {
         player.tell("Sorry, there's already a game in progress.");
         return null;
     }
-    else {
-        var playerID = this.nextID++;
-        this.players.push(player);
-        this.playerIDs.push(playerID);
 
-        player.gameJoined();
+    // Add player to the game
+    var playerID = this.nextID++;
+    this.players.push(player);
+    this.playerIDs.push(playerID);
+    player.gameJoined();
 
-        if (this.isFull()) {
-            var opponent = this.opponentOf(playerID);
-            player.opponentJoined(opponent);
-            opponent.opponentJoined(player);
-            this.board.startGame(opponent, player);
-        }
-        else {
-            player.waitForOpponent();
-        }
-
-        return playerID;
+    // Configure opponent and start game
+    var opponent = this._opponentOf(playerID);
+    if (opponent) {
+        player.opponentJoined(opponent);
+        opponent.opponentJoined(player);
+        this.board.startGame(opponent, player);
     }
+    else {
+        player.tell("Waiting for opponent...");
+    }
+
+    return playerID;
 };
 
 TicTacToe.prototype.removePlayer = function (playerID) {
@@ -50,23 +50,13 @@ TicTacToe.prototype.removePlayer = function (playerID) {
     }
 };
 
-TicTacToe.prototype.player = function (playerID) {
-    var index = this.playerIDs.indexOf(playerID);
-    return index === -1 ? null : this.players[index];
-};
-
-TicTacToe.prototype.opponentOf = function (playerID) {
-    var index = this.playerIDs.indexOf(playerID);
-    return index === -1 ? null : this.players[(index + 1) % 2];
-};
-
-TicTacToe.prototype.isFull = function () {
-    return this.players.length >= 2;
+TicTacToe.prototype.takeCell = function (playerID, cell) {
+    this.board.takeCell(this._player(playerID), cell);
 };
 
 TicTacToe.prototype.sendChat = function (playerID, text) {
-    var player = this.player(playerID);
-    var opponent = this.opponentOf(playerID);
+    var player = this._player(playerID);
+    var opponent = this._opponentOf(playerID);
     var chat = { name: player.getName(), text: text };
     player.addChat(chat);
     if (opponent) {
@@ -74,8 +64,18 @@ TicTacToe.prototype.sendChat = function (playerID, text) {
     }
 };
 
-TicTacToe.prototype.takeCell = function (playerID, cell) {
-    this.board.takeCell(this.player(playerID), cell);
+TicTacToe.prototype._player = function (playerID) {
+    var index = this.playerIDs.indexOf(playerID);
+    return index === -1 ? null : this.players[index];
+};
+
+TicTacToe.prototype._opponentOf = function (playerID) {
+    var index = this.playerIDs.indexOf(playerID);
+    return index === -1 ? null : this.players[(index + 1) % 2];
+};
+
+TicTacToe.prototype._isFull = function () {
+    return this.players.length >= 2;
 };
 
 module.exports = TicTacToe;

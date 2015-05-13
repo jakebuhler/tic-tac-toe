@@ -16,10 +16,6 @@ Player.prototype.tell = function (message) {
     this.socket.emit("show message", message);
 };
 
-Player.prototype.waitForOpponent = function () {
-    this.tell("Waiting for opponent...");
-};
-
 Player.prototype.gameJoined = function () {
     this.socket.emit("login successful");
     this.socket.emit("update player", this.asObj());
