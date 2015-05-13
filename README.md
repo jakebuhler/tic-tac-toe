@@ -42,6 +42,9 @@ with the app, the backend receives messages and processes them to update the
 game state. Any modified game elements are then sent back to the frontend for
 rendering.
 
+Everything in the app lives in memory, there is no database. This choice was
+made mostly for simplicty of setup and implementation.
+
 Frontend
 --------
 
@@ -109,3 +112,12 @@ Dependencies
 * *grunt-contnrib-jasmine* - Grunt task for PhantomJS/Jasmine testing
 * *grunt-contrib-watch* - auto-reload server when files change
 * *grunt-express-server* - Grunt task for running the Express server
+
+Known Issues
+------------
+
+* Nothing about the user is saved after disconnecting. If a user
+  disconnects and reconnects, their win-loss record is gone.
+* No more than two players can connect at once. I would like to
+  implement some sort of matchmaking system so that multiple
+  games could be going simultaneously.
