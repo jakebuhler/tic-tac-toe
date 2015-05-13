@@ -30,7 +30,7 @@ Player.prototype.opponentJoined = function (opponent) {
 Player.prototype.opponentLeft = function (opponent) {
     this.opponent = null;
     this.socket.emit("update opponent");
-    this.waitForOpponent();
+    this.tell("Waiting for opponent...");
     // Clear the board
     this.socket.emit("update board");
 };
